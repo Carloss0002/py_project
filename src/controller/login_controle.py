@@ -1,4 +1,6 @@
+from src.model.login_model import LoginDataBase
 import re
+
 
 class LoginUser:
 
@@ -22,14 +24,38 @@ class LoginUser:
             return {"message": message, "logged": logged}
         else:
             logged = True
+
             return {"logged": logged}
-
-    def login_user(self,email, password):
-        result = self.validate_user(email, password)
-
-        return result
 
     def register_user(self, email, password):
        result = self.validate_user(email, password)
 
-       return result
+       if result["logged"]:
+
+           send_userData = LoginDataBase()
+
+           result = send_userData.write_to_table(email, password)
+
+           if result:
+                print(result)
+                return {"message": 'Usuário criado com sucesso', "logged": True}
+           else:
+               return result
+       else:
+           return result
+
+    def login_user(self, email, password):
+
+        result = self.validate_user(email, password)
+
+        if result["logged"]:
+            search_user_login = LoginDataBase()
+
+            result = search_user_login.Search_User_Login(email, password)
+            print(result)
+            if result["logged"]:
+               return  {"message": 'Bem Vindo', "logged": True}
+            else:
+                return result
+
+        return result

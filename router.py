@@ -8,7 +8,7 @@ class Router(QStackedWidget):
         super().__init__()
 
         self.login_view = LoginView(on_login_success=self.go_to_home, on_register=self.go_to_register, width=width)
-        self.register_view = RegisterView(on_login_success=self.go_to_login, width=width)
+        self.register_view = RegisterView(on_login=self.go_to_login, on_create_success=self.go_to_home,width=width)
         self.home_app = FinanceApp()
 
         self.routes = {

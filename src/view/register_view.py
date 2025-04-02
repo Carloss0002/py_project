@@ -7,11 +7,17 @@ from src.controller.login_controle import LoginUser
 
 
 class RegisterView(QWidget):
-    def __init__(self, on_login_success, width):
+    def __init__(self, on_login, on_create_success,width):
         super().__init__()
-        self.on_login = on_login_success
-
+        self.on_login = on_login
+        self.on_home = on_create_success
         self.setStyleSheet("""
+            QMessageBox {
+                background-color: #FFF !important;
+                color: white;
+                font-size: 14px;
+                border-radius: 10px;
+            }
             QLineEdit {
                 font-size: 16px;
                 color: #333;
@@ -72,7 +78,7 @@ class RegisterView(QWidget):
         range_layout.addLayout(pass_layout)
 
         login_btn = QPushButton("Cadastrar-se")
-        
+        login_btn.clicked.connect(self.register_user)
         register_btn = QPushButton("Já tem conta? Faça login")
         register_btn.clicked.connect(self.on_login)
         login_btn.setStyleSheet("""
@@ -110,11 +116,13 @@ class RegisterView(QWidget):
     def register_user(self):
         register_user_class = LoginUser()
         email = self.email_input.text()
-        password = self.email_input.text()
+        password = self.password_input.text()
         result = register_user_class.register_user(email, password)
 
         if result["logged"]:
             QMessageBox.information(self, 'Bem-vindo', 'Usuário conectado com sucesso')
-            self.on_login_success()
+            print('aqui')
+            self.on_home()
         else:
             QMessageBox.warning(self, 'error', result["message"])
+            print(result["message"])

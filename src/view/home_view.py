@@ -194,10 +194,12 @@ class MyModalDialog(QDialog):
             register_expense_controller = RegisterFinance()
             if type_element == 'balance':
                 input_balance = self.input_value.text()
-                print(input_balance)
+                result = register_expense_controller.register_balance(input_balance)
+                self.message_box(result["message"], result["check"])
             elif type_element == 'savings':
                 input_savings = self.input_value_savings.text()
-                print(input_savings)
+                result = register_expense_controller.register_savings(input_savings)
+                self.message_box(result["message"], result["check"])
             elif type_element == 'expense':
                 input_description_expense = self.input_description_expense.text()
                 input_expense = self.input_value_expense.text()

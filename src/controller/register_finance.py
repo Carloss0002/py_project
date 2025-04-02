@@ -1,3 +1,7 @@
+import json
+
+from src.model.register_finance import RegisterFinanceModel
+
 class RegisterFinance():
     def message_return(self, message, check):
         return {"message": message, "check":check}
@@ -49,12 +53,38 @@ class RegisterFinance():
             return self.message_return("Error: Nenhuma ação a partir daqui tente novamente", False)
 
     def register_savings(self, value):
-        return_test = self.test_balance_savings(value)
+        if self.number_test(value):
+            controller_send_savings = RegisterFinanceModel()
 
-        return return_test
+            result = controller_send_savings.register_values('savings', value)
+
+            return self.message_return(result["message"], result["response"])
+        else:
+            return self.test_balance_savings(value)
 
     def register_balance(self, value):
 
-        return_test = self.test_balance_savings(value)
+        if self.number_test(value):
+            controller_send_balance = RegisterFinanceModel()
 
-        return return_test
+            result = controller_send_balance.register_values('balance', value)
+
+            return  self.message_return(result["message"], result["response"])
+        else:
+            return self.test_balance_savings(value)
+
+    def register_expense(self, value, description):
+
+        if self.number_test(value):
+            controller_send_balance = RegisterFinanceModel()
+            expense_data = {
+                "value": value,
+                "description": description
+            }
+            expense_json = json.dumps(expense_data)
+
+            result = controller_send_balance.register_values('expense', expense_json)
+
+            return self.message_return(result["message"], result["response"])
+        else:
+            return self.test_balance_savings(value)
