@@ -121,8 +121,6 @@ class RegisterView(QWidget):
 
         if result["logged"]:
             QMessageBox.information(self, 'Bem-vindo', 'Usuário conectado com sucesso')
-            print('aqui')
             self.on_home()
         else:
             QMessageBox.warning(self, 'error', result["message"])
-            print(result["message"])

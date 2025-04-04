@@ -13,7 +13,7 @@ class LoginDataBase():
 
             query = 'SELECT * FROM user WHERE Email = %s'
             values = (email)
-            print(values)
+
             myCursor.execute(query, (values, ))
 
             user = myCursor.fetchone()

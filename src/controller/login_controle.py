@@ -6,7 +6,6 @@ class LoginUser:
 
     def validate_email(self,email):
         padrao = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
-        print(re.match(padrao, email))
         return re.match(padrao, email) is not None
 
     def validate_user(self, email, password):
@@ -14,7 +13,6 @@ class LoginUser:
 
         if email == '' and password == '':
             message = 'Error: Campos importantes vazios'
-            print(email)
             return {"message": message, "logged": logged}
         elif email == '':
             message = 'Error: Campo de email vazio'
@@ -37,7 +35,7 @@ class LoginUser:
            result = send_userData.write_to_table(email, password)
 
            if result:
-                print(result)
+
                 return {"message": 'Usuário criado com sucesso', "logged": True}
            else:
                return result
@@ -52,7 +50,7 @@ class LoginUser:
             search_user_login = LoginDataBase()
 
             result = search_user_login.Search_User_Login(email, password)
-            print(result)
+
             if result["logged"]:
                return  {"message": 'Bem Vindo', "logged": True}
             else:
